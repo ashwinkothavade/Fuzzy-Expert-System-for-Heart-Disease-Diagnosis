@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnosis Result - Heart Disease System</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="result-container">
+            <div class="result-card">
+                <div class="result-icon">
+                    {% if 'healthy' in output.lower() %}
+                        ✅
+                    {% elif 'sick_1' in output.lower() or 'sick 1' in output.lower() %}
+                        ⚠️
+                    {% elif 'sick_2' in output.lower() or 'sick 2' in output.lower() %}
+                        🟡
+                    {% elif 'sick_3' in output.lower() or 'sick 3' in output.lower() %}
+                        🟠
+                    {% else %}
+                        🔴
+                    {% endif %}
+                </div>
+                
+                <h1 class="result-title">Diagnosis Result</h1>
+                
+                <div class="result-output">
+                    <div class="result-label">Health Status:</div>
+                    <div class="result-value">{{ output }}</div>
+                </div>
+
+                <div class="result-description">
+                    {% if 'healthy' in output.lower() %}
+                        <p>✨ Great news! The analysis indicates a healthy heart condition.</p>
+                        <p class="recommendation">Continue maintaining a healthy lifestyle with regular exercise and balanced diet.</p>
+                    {% elif 'sick_1' in output.lower() or 'sick 1' in output.lower() %}
+                        <p>⚠️ Mild risk detected. Early intervention recommended.</p>
+                        <p class="recommendation">Please consult with a healthcare professional for further evaluation.</p>
+                    {% elif 'sick_2' in output.lower() or 'sick 2' in output.lower() %}
+                        <p>🟡 Moderate risk level identified.</p>
+                        <p class="recommendation">Medical consultation is advised. Consider lifestyle modifications and follow-up tests.</p>
+                    {% elif 'sick_3' in output.lower() or 'sick 3' in output.lower() %}
+                        <p>🟠 Significant risk detected.</p>
+                        <p class="recommendation">Immediate medical attention recommended. Please schedule an appointment with a cardiologist.</p>
+                    {% else %}
+                        <p>🔴 High risk level identified.</p>
+                        <p class="recommendation">Urgent medical evaluation required. Please seek immediate professional medical care.</p>
+                    {% endif %}
+                </div>
+
+                <div class="disclaimer">
+                    <strong>⚕️ Medical Disclaimer:</strong> This is an AI-based screening tool using fuzzy logic. 
+                    Results should not replace professional medical diagnosis. Always consult with qualified healthcare providers.
+                </div>
+
+                <div class="button-container">
+                    <a href="/" class="back-button">
+                        <span class="button-icon">🔄</span>
+                        New Analysis
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
