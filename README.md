@@ -1,10 +1,10 @@
-# ❤️ Fuzzy Logic Expert System for Heart Disease Diagnosis
+# 🔬 MediFuzzy - Clinical Intelligence System
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-2.0.2-green.svg)](https://flask.palletsprojects.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A sophisticated **Mamdani-type fuzzy inference system** that diagnoses cardiovascular disease risk using computational intelligence. This expert system processes 11 clinical parameters through 54 medical rules to provide graduated risk assessments from healthy to severe conditions.
+A sophisticated **Mamdani-type fuzzy inference system** for clinical risk assessment using computational intelligence. This expert system processes multiple physiological parameters through intelligent medical rules to provide graduated health risk evaluations.
 
 ## 🎯 Why Fuzzy Logic for Medical Diagnosis?
 
@@ -266,8 +266,8 @@ Final Diagnosis: "sick_3, sick_4, 3.8"
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/Fuzzy-Expert-System-for-Heart-Disease-Diagnosis.git
-cd Fuzzy-Expert-System-for-Heart-Disease-Diagnosis
+git clone https://github.com/yourusername/medifuzzy.git
+cd medifuzzy
 
 # Install dependencies
 pip install -r requirements.txt
@@ -405,7 +405,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 👥 Authors
 
-Heart Disease Diagnosis System Research Team
+MediFuzzy Research Team
 
 ---
 

@@ -1,8 +1,8 @@
-# Fuzzy Logic Expert System for Heart Disease Diagnosis: A Computational Intelligence Approach
+# MediFuzzy: A Computational Intelligence Approach to Clinical Risk Assessment
 
 ## Abstract
 
-This paper presents a comprehensive fuzzy logic-based expert system for diagnosing heart disease risk levels. The system employs Mamdani-type fuzzy inference to process 11 clinical parameters and generate diagnostic assessments across five severity categories. By leveraging linguistic variables and approximate reasoning, the system mimics medical expert decision-making while handling the inherent uncertainty in clinical data. Our implementation demonstrates the effectiveness of fuzzy logic in medical diagnosis, achieving interpretable results through a three-stage pipeline: fuzzification, rule-based inference, and center-of-gravity defuzzification.
+This paper presents a comprehensive fuzzy logic-based expert system for clinical risk assessment and health evaluation. The system employs Mamdani-type fuzzy inference to process 11 clinical parameters and generate diagnostic assessments across five severity categories. By leveraging linguistic variables and approximate reasoning, the system mimics medical expert decision-making while handling the inherent uncertainty in clinical data. Our implementation demonstrates the effectiveness of fuzzy logic in medical diagnosis, achieving interpretable results through a three-stage pipeline: fuzzification, rule-based inference, and center-of-gravity defuzzification.
 
 **Keywords**: Fuzzy Logic, Expert Systems, Medical Diagnosis, Heart Disease, Computational Intelligence, Mamdani Inference
 
@@ -633,8 +633,8 @@ Rule 54: IF age IS very_old THEN health IS sick_4
 
 **Document Version**: 1.0  
 **Date**: November 2025  
-**Authors**: Heart Disease Diagnosis System Research Team  
-**Contact**: [Project Repository](https://github.com/maedemir/Fuzzy-Expert-System-for-Heart-Disease-Diagnosis)
+**Authors**: MediFuzzy Research Team  
+**Contact**: [Project Repository](https://github.com/yourusername/medifuzzy)
 
 ---
 
