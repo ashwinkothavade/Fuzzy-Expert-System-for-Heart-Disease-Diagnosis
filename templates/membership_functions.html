@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership Functions - MediFuzzy</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        .graph-container {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .graph-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+        
+        .graph-subtitle {
+            font-size: 0.8125rem;
+            color: #666;
+            margin-bottom: 16px;
+        }
+        
+        .canvas-wrapper {
+            position: relative;
+            height: 300px;
+            margin-bottom: 12px;
+        }
+        
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            font-size: 0.8125rem;
+            margin-top: 12px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 3px;
+            border-radius: 2px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .nav-button {
+            padding: 10px 20px;
+            background: #1a1a1a;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .nav-button:hover {
+            background: #333;
+        }
+        
+        .nav-button.secondary {
+            background: white;
+            color: #1a1a1a;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .nav-button.secondary:hover {
+            background: #fafafa;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="header">
+            <h1>Membership Functions</h1>
+            <p class="subtitle">Visual representation of fuzzy logic membership functions</p>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="/" class="nav-button">Back to Assessment</a>
+            <a href="#output" class="nav-button secondary">Jump to Output Functions</a>
+        </div>
+
+        <!-- Age -->
+        <div class="graph-container">
+            <h2 class="graph-title">Age</h2>
+            <p class="graph-subtitle">Range: 0-100 years | Categories: Young, Mild, Old, Very Old</p>
+            <div class="canvas-wrapper">
+                <canvas id="ageChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Blood Pressure -->
+        <div class="graph-container">
+            <h2 class="graph-title">Blood Pressure</h2>
+            <p class="graph-subtitle">Range: 0-350 mmHg | Categories: Low, Medium, High, Very High</p>
+            <div class="canvas-wrapper">
+                <canvas id="bpChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Cholesterol -->
+        <div class="graph-container">
+            <h2 class="graph-title">Cholesterol</h2>
+            <p class="graph-subtitle">Range: 0-600 mg/dL | Categories: Low, Medium, High, Very High</p>
+            <div class="canvas-wrapper">
+                <canvas id="cholesterolChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Blood Sugar -->
+        <div class="graph-container">
+            <h2 class="graph-title">Blood Sugar</h2>
+            <p class="graph-subtitle">Range: 0-200 mg/dL | Categories: False (Normal), True (High)</p>
+            <div class="canvas-wrapper">
+                <canvas id="bloodSugarChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Heart Rate -->
+        <div class="graph-container">
+            <h2 class="graph-title">Heart Rate</h2>
+            <p class="graph-subtitle">Range: 0-250 bpm | Categories: Low, Medium, High</p>
+            <div class="canvas-wrapper">
+                <canvas id="heartRateChart"></canvas>
+            </div>
+        </div>
+
+        <!-- ECG -->
+        <div class="graph-container">
+            <h2 class="graph-title">ECG (Electrocardiogram)</h2>
+            <p class="graph-subtitle">Range: -0.5 to 2.5 | Categories: Normal, Abnormal, Hypertrophy</p>
+            <div class="canvas-wrapper">
+                <canvas id="ecgChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Old Peak -->
+        <div class="graph-container">
+            <h2 class="graph-title">Old Peak (ST Depression)</h2>
+            <p class="graph-subtitle">Range: 0-10 mm | Categories: Low, Risk, Terrible</p>
+            <div class="canvas-wrapper">
+                <canvas id="oldPeakChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Output Functions -->
+        <div class="graph-container" id="output">
+            <h2 class="graph-title">Output - Health Status</h2>
+            <p class="graph-subtitle">Range: 0-5 | Categories: Healthy, Sick 1, Sick 2, Sick 3, Sick 4</p>
+            <div class="canvas-wrapper">
+                <canvas id="outputChart"></canvas>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="/" class="nav-button">Back to Assessment</a>
+        </div>
+    </div>
+
+    <script>
+        // Chart.js configuration
+        Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+        Chart.defaults.font.size = 11;
+        Chart.defaults.color = '#666';
+
+        const chartConfig = {
+            type: 'line',
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            boxWidth: 30,
+                            boxHeight: 2,
+                            padding: 12,
+                            usePointStyle: false
+                        }
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 10,
+                        cornerRadius: 4
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: '#f0f0f0'
+                        },
+                        ticks: {
+                            color: '#666'
+                        }
+                    },
+                    y: {
+                        min: 0,
+                        max: 1,
+                        grid: {
+                            color: '#f0f0f0'
+                        },
+                        ticks: {
+                            color: '#666',
+                            callback: function(value) {
+                                return value.toFixed(1);
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Membership Degree (μ)',
+                            color: '#666'
+                        }
+                    }
+                },
+                elements: {
+                    line: {
+                        borderWidth: 2,
+                        tension: 0
+                    },
+                    point: {
+                        radius: 0,
+                        hitRadius: 10,
+                        hoverRadius: 4
+                    }
+                }
+            }
+        };
+
+        // Age membership functions
+        function ageYoung(x) {
+            if (x <= 29) return 1.0;
+            if (x <= 38) return (-1/9) * x + 38/9;
+            return 0.0;
+        }
+
+        function ageMild(x) {
+            if (x < 33) return 0.0;
+            if (x <= 38) return (1/5) * x - 33/5;
+            if (x <= 45) return (-1/7) * x + 45/7;
+            return 0.0;
+        }
+
+        function ageOld(x) {
+            if (x < 40) return 0.0;
+            if (x <= 48) return (1/8) * x - 40/8;
+            if (x <= 58) return (-1/10) * x + 58/10;
+            return 0.0;
+        }
+
+        function ageVeryOld(x) {
+            if (x <= 52) return 0.0;
+            if (x <= 60) return (1/8) * x - 52/8;
+            return 1.0;
+        }
+
+        // Blood Pressure membership functions
+        function bpLow(x) {
+            if (x <= 111) return 1.0;
+            if (x <= 134) return (-1/23) * x + 134/23;
+            return 0.0;
+        }
+
+        function bpMedium(x) {
+            if (x < 127) return 0.0;
+            if (x <= 139) return (1/12) * x - 127/12;
+            if (x <= 153) return (-1/14) * x + 153/14;
+            return 0.0;
+        }
+
+        function bpHigh(x) {
+            if (x < 142) return 0.0;
+            if (x <= 157) return (1/15) * x - 142/15;
+            if (x <= 172) return (-1/15) * x + 172/15;
+            return 0.0;
+        }
+
+        function bpVeryHigh(x) {
+            if (x <= 154) return 0.0;
+            if (x <= 171) return (1/17) * x - 154/17;
+            return 1.0;
+        }
+
+        // Cholesterol membership functions
+        function cholLow(x) {
+            if (x <= 151) return 1.0;
+            if (x <= 197) return (-1/46) * x + 197/46;
+            return 0.0;
+        }
+
+        function cholMedium(x) {
+            if (x < 188) return 0.0;
+            if (x <= 215) return (1/27) * x - 188/27;
+            if (x <= 250) return (-1/35) * x + 250/35;
+            return 0.0;
+        }
+
+        function cholHigh(x) {
+            if (x < 217) return 0.0;
+            if (x <= 263) return (1/46) * x - 217/46;
+            if (x <= 307) return (-1/44) * x + 307/44;
+            return 0.0;
+        }
+
+        function cholVeryHigh(x) {
+            if (x <= 281) return 0.0;
+            if (x <= 347) return (1/66) * x - 281/66;
+            return 1.0;
+        }
+
+        // Blood Sugar membership functions
+        function bsTrue(x) {
+            if (x < 105) return 0.0;
+            if (x < 120) return 0.067 * x - 7;
+            return 1.0;
+        }
+
+        function bsFalse(x) {
+            return 1 - bsTrue(x);
+        }
+
+        // Heart Rate membership functions
+        function hrLow(x) {
+            if (x <= 100) return 1.0;
+            if (x <= 141) return (-1/41) * x + 141/41;
+            return 0.0;
+        }
+
+        function hrMedium(x) {
+            if (x < 111) return 0.0;
+            if (x <= 152) return (1/41) * x - 111/41;
+            if (x <= 194) return (-1/42) * x + 194/42;
+            return 0.0;
+        }
+
+        function hrHigh(x) {
+            if (x <= 152) return 0.0;
+            if (x <= 210) return (1/58) * x - 152/58;
+            return 1.0;
+        }
+
+        // ECG membership functions
+        function ecgNormal(x) {
+            if (x <= 0) return 1.0;
+            if (x <= 0.4) return (-1/0.4) * x + 1.0;
+            return 0.0;
+        }
+
+        function ecgAbnormal(x) {
+            if (x < 0.2) return 0.0;
+            if (x <= 1.0) return (1/0.8) * x - 0.2/0.8;
+            if (x <= 1.8) return (-1/0.8) * x + 1.8/0.8;
+            return 0.0;
+        }
+
+        function ecgHypertrophy(x) {
+            if (x <= 1.4) return 0.0;
+            if (x <= 1.9) return (1/0.5) * x - 1.4/0.5;
+            return 0.0;
+        }
+
+        // Old Peak membership functions
+        function opLow(x) {
+            if (x <= 1) return 1.0;
+            if (x <= 2) return -x + 2.0;
+            return 0.0;
+        }
+
+        function opRisk(x) {
+            if (x < 1.5) return 0.0;
+            if (x <= 2.8) return (1/1.3) * x - 1.5/1.3;
+            if (x <= 4.2) return (-1/1.4) * x + 4.2/1.4;
+            return 0.0;
+        }
+
+        function opTerrible(x) {
+            if (x <= 2.5) return 0.0;
+            if (x <= 4.0) return (1/1.5) * x - 2.5/1.5;
+            return 1.0;
+        }
+
+        // Output membership functions
+        function outHealthy(x) {
+            if (x <= 0.25) return 1.0;
+            if (x <= 1.0) return (-1/0.75) * x + 1/0.75;
+            return 0.0;
+        }
+
+        function outSick1(x) {
+            if (x < 0) return 0.0;
+            if (x <= 1.0) return x;
+            if (x <= 2.0) return -x + 2.0;
+            return 0.0;
+        }
+
+        function outSick2(x) {
+            if (x < 1.0) return 0.0;
+            if (x <= 2.0) return x - 1.0;
+            if (x <= 3.0) return -x + 3.0;
+            return 0.0;
+        }
+
+        function outSick3(x) {
+            if (x < 2.0) return 0.0;
+            if (x <= 3.0) return x - 2.0;
+            if (x <= 4.0) return -x + 4.0;
+            return 0.0;
+        }
+
+        function outSick4(x) {
+            if (x <= 3.0) return 0.0;
+            if (x <= 3.75) return (1/0.75) * x - 3.0/0.75;
+            return 1.0;
+        }
+
+        // Generate data points
+        function generateData(min, max, step, func) {
+            const data = [];
+            for (let x = min; x <= max; x += step) {
+                data.push({x: x, y: func(x)});
+            }
+            return data;
+        }
+
+        // Color palette
+        const colors = {
+            blue: '#2563eb',
+            green: '#16a34a',
+            orange: '#ea580c',
+            red: '#dc2626',
+            purple: '#9333ea',
+            cyan: '#0891b2',
+            pink: '#db2777',
+            yellow: '#ca8a04'
+        };
+
+        // Create Age Chart
+        new Chart(document.getElementById('ageChart'), {
+            ...chartConfig,
+            data: {
+                datasets: [
+                    {
+                        label: 'Young',
+                        data: generateData(0, 100, 1, ageYoung),
+                        borderColor: colors.blue,
+                        backgroundColor: colors.blue + '20'
+                    },
+                    {
+                        label: 'Mild',
+                        data: generateData(0, 100, 1, ageMild),
+                        borderColor: colors.green,
+                        backgroundColor: colors.green + '20'
+                    },
+                    {
+                        label: 'Old',
+                        data: generateData(0, 100, 1, ageOld),
+                        borderColor: colors.orange,
+                        backgroundColor: colors.orange + '20'
+                    },
+                    {
+                        label: 'Very Old',
+                        data: generateData(0, 100, 1, ageVeryOld),
+                        borderColor: colors.red,
+                        backgroundColor: colors.red + '20'
+                    }
+                ]
+            }
+        });
+
+        // Create Blood Pressure Chart
+        new Chart(document.getElementById('bpChart'), {
+            ...chartConfig,
+            data: {
+                datasets: [
+                    {
+                        label: 'Low',
+                        data: generateData(0, 350, 2, bpLow),
+                        borderColor: colors.blue,
+                        backgroundColor: colors.blue + '20'
+                    },
+                    {
+                        label: 'Medium',
+                        data: generateData(0, 350, 2, bpMedium),
+                        borderColor: colors.green,
+                        backgroundColor: colors.green + '20'
+                    },
+                    {
+                        label: 'High',
+                        data: generateData(0, 350, 2, bpHigh),
+                        borderColor: colors.orange,
+                        backgroundColor: colors.orange + '20'
+                    },
+                    {
+                        label: 'Very High',
+                        data: generateData(0, 350, 2, bpVeryHigh),
+                        borderColor: colors.red,
+                        backgroundColor: colors.red + '20'
+                    }
+                ]
+            }
+        });
+
+        // Create Cholesterol Chart
+        new Chart(document.getElementById('cholesterolChart'), {
+            ...chartConfig,
+            data: {
+                datasets: [
+                    {
+                        label: 'Low',
+                        data: generateData(0, 600, 3, cholLow),
+                        borderColor: colors.blue,
+                        backgroundColor: colors.blue + '20'
+                    },
+                    {
+                        label: 'Medium',
+                        data: generateData(0, 600, 3, cholMedium),
+                        borderColor: colors.green,
+                        backgroundColor: colors.green + '20'
+                    },
+                    {
+                        label: 'High',
+                        data: generateData(0, 600, 3, cholHigh),
+                        borderColor: colors.orange,
+                        backgroundColor: colors.orange + '20'
+                    },
+                    {
+                        label: 'Very High',
+                        data: generateData(0, 600, 3, cholVeryHigh),
+                        borderColor: colors.red,
+                        backgroundColor: colors.red + '20'
+                    }
+                ]
+            }
+        });
+
+        // Create Blood Sugar Chart
+        new Chart(document.getElementById('bloodSugarChart'), {
+            ...chartConfig,
+            data: {
+                datasets: [
+                    {
+                        label: 'False (Normal)',
+                        data: generateData(0, 200, 1, bsFalse),
+                        borderColor: colors.blue,
+                        backgroundColor: colors.blue + '20'
+                    },
+                    {
+                        label: 'True (High)',
+                        data: generateData(0, 200, 1, bsTrue),
+                        borderColor: colors.red,
+                        backgroundColor: colors.red + '20'
+                    }
+                ]
+            }
+        });
+
+        // Create Heart Rate Chart
+        new Chart(document.getElementById('heartRateChart'), {
+            ...chartConfig,
+            data: {
+                datasets: [
+                    {
+                        label: 'Low',
+                        data: generateData(0, 250, 2, hrLow),
+                        borderColor: colors.blue,
+                        backgroundColor: colors.blue + '20'
+                    },
+                    {
+                        label: 'Medium',
+                        data: generateData(0, 250, 2, hrMedium),
+                        borderColor: colors.green,
+                        backgroundColor: colors.green + '20'
+                    },
+                    {
+                        label: 'High',
+                        data: generateData(0, 250, 2, hrHigh),
+                        borderColor: colors.red,
+                        backgroundColor: colors.red + '20'
+                    }
+                ]
+            }
+        });
+
+        // Create ECG Chart
+        new Chart(document.getElementById('ecgChart'), {
+            ...chartConfig,
+            data: {
+                datasets: [
+                    {
+                        label: 'Normal',
+                        data: generateData(-0.5, 2.5, 0.05, ecgNormal),
+                        borderColor: colors.blue,
+                        backgroundColor: colors.blue + '20'
+                    },
+                    {
+                        label: 'Abnormal',
+                        data: generateData(-0.5, 2.5, 0.05, ecgAbnormal),
+                        borderColor: colors.orange,
+                        backgroundColor: colors.orange + '20'
+                    },
+                    {
+                        label: 'Hypertrophy',
+                        data: generateData(-0.5, 2.5, 0.05, ecgHypertrophy),
+                        borderColor: colors.red,
+                        backgroundColor: colors.red + '20'
+                    }
+                ]
+            }
+        });
+
+        // Create Old Peak Chart
+        new Chart(document.getElementById('oldPeakChart'), {
+            ...chartConfig,
+            data: {
+                datasets: [
+                    {
+                        label: 'Low',
+                        data: generateData(0, 10, 0.1, opLow),
+                        borderColor: colors.blue,
+                        backgroundColor: colors.blue + '20'
+                    },
+                    {
+                        label: 'Risk',
+                        data: generateData(0, 10, 0.1, opRisk),
+                        borderColor: colors.orange,
+                        backgroundColor: colors.orange + '20'
+                    },
+                    {
+                        label: 'Terrible',
+                        data: generateData(0, 10, 0.1, opTerrible),
+                        borderColor: colors.red,
+                        backgroundColor: colors.red + '20'
+                    }
+                ]
+            }
+        });
+
+        // Create Output Chart
+        new Chart(document.getElementById('outputChart'), {
+            ...chartConfig,
+            data: {
+                datasets: [
+                    {
+                        label: 'Healthy',
+                        data: generateData(0, 5, 0.05, outHealthy),
+                        borderColor: colors.blue,
+                        backgroundColor: colors.blue + '20'
+                    },
+                    {
+                        label: 'Sick 1',
+                        data: generateData(0, 5, 0.05, outSick1),
+                        borderColor: colors.green,
+                        backgroundColor: colors.green + '20'
+                    },
+                    {
+                        label: 'Sick 2',
+                        data: generateData(0, 5, 0.05, outSick2),
+                        borderColor: colors.yellow,
+                        backgroundColor: colors.yellow + '20'
+                    },
+                    {
+                        label: 'Sick 3',
+                        data: generateData(0, 5, 0.05, outSick3),
+                        borderColor: colors.orange,
+                        backgroundColor: colors.orange + '20'
+                    },
+                    {
+                        label: 'Sick 4',
+                        data: generateData(0, 5, 0.05, outSick4),
+                        borderColor: colors.red,
+                        backgroundColor: colors.red + '20'
+                    }
+                ]
+            }
+        });
+    </script>
+</body>
+</html>

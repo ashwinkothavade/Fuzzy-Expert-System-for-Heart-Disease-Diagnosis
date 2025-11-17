@@ -18,5 +18,10 @@ def final_result():
     return render_template('result.html', output=output)
 
 
+@app.route('/membership-functions')
+def membership_functions():
+    return render_template('membership_functions.html')
+
+
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8448, debug=True)
