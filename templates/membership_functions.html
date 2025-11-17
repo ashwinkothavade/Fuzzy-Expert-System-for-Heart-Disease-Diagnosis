@@ -161,6 +161,42 @@
             </div>
         </div>
 
+        <!-- Chest Pain -->
+        <div class="graph-container">
+            <h2 class="graph-title">Chest Pain Type</h2>
+            <p class="graph-subtitle">Discrete Values: 1-4 | Categories: Typical Angina, Atypical Angina, Non-Anginal Pain, Asymptomatic</p>
+            <div class="canvas-wrapper">
+                <canvas id="chestPainChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Exercise Induced Angina -->
+        <div class="graph-container">
+            <h2 class="graph-title">Exercise Induced Angina</h2>
+            <p class="graph-subtitle">Binary Values: 0-1 | Categories: No (False), Yes (True)</p>
+            <div class="canvas-wrapper">
+                <canvas id="exerciseChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Thallium Scan -->
+        <div class="graph-container">
+            <h2 class="graph-title">Thallium Scan</h2>
+            <p class="graph-subtitle">Discrete Values: {3, 6, 7} | Categories: Normal, Medium (Fixed Defect), High (Reversible Defect)</p>
+            <div class="canvas-wrapper">
+                <canvas id="thalliumChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Sex -->
+        <div class="graph-container">
+            <h2 class="graph-title">Sex (Gender)</h2>
+            <p class="graph-subtitle">Binary Values: 0-1 | Categories: Male, Female</p>
+            <div class="canvas-wrapper">
+                <canvas id="sexChart"></canvas>
+            </div>
+        </div>
+
         <!-- Output Functions -->
         <div class="graph-container" id="output">
             <h2 class="graph-title">Output - Health Status</h2>
@@ -207,6 +243,7 @@
                 },
                 scales: {
                     x: {
+                        type: 'linear',
                         grid: {
                             color: '#f0f0f0'
                         },
@@ -652,6 +689,208 @@
                         backgroundColor: colors.red + '20'
                     }
                 ]
+            }
+        });
+
+        // Create Chest Pain Chart (Singleton/Bar Chart)
+        new Chart(document.getElementById('chestPainChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Type 1\nTypical Angina', 'Type 2\nAtypical Angina', 'Type 3\nNon-Anginal Pain', 'Type 4\nAsymptomatic'],
+                datasets: [{
+                    label: 'Membership Degree',
+                    data: [1, 1, 1, 1],
+                    backgroundColor: [colors.blue, colors.green, colors.orange, colors.red],
+                    borderColor: [colors.blue, colors.green, colors.orange, colors.red],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 10,
+                        cornerRadius: 4,
+                        callbacks: {
+                            label: function(context) {
+                                return 'μ = ' + context.parsed.y + ' (Singleton)';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: '#f0f0f0' },
+                        ticks: { 
+                            color: '#666',
+                            font: { size: 10 }
+                        }
+                    },
+                    y: {
+                        min: 0,
+                        max: 1,
+                        grid: { color: '#f0f0f0' },
+                        ticks: { color: '#666' },
+                        title: {
+                            display: true,
+                            text: 'Membership Degree (μ)',
+                            color: '#666'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Create Exercise Chart (Binary Bar Chart)
+        new Chart(document.getElementById('exerciseChart'), {
+            type: 'bar',
+            data: {
+                labels: ['0 - No\n(False)', '1 - Yes\n(True)'],
+                datasets: [{
+                    label: 'Membership Degree',
+                    data: [1, 1],
+                    backgroundColor: [colors.blue, colors.red],
+                    borderColor: [colors.blue, colors.red],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 10,
+                        cornerRadius: 4,
+                        callbacks: {
+                            label: function(context) {
+                                return 'μ = ' + context.parsed.y + ' (Singleton)';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: '#f0f0f0' },
+                        ticks: { color: '#666' }
+                    },
+                    y: {
+                        min: 0,
+                        max: 1,
+                        grid: { color: '#f0f0f0' },
+                        ticks: { color: '#666' },
+                        title: {
+                            display: true,
+                            text: 'Membership Degree (μ)',
+                            color: '#666'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Create Thallium Scan Chart (Discrete Bar Chart)
+        new Chart(document.getElementById('thalliumChart'), {
+            type: 'bar',
+            data: {
+                labels: ['3 - Normal', '6 - Medium\n(Fixed Defect)', '7 - High\n(Reversible Defect)'],
+                datasets: [{
+                    label: 'Membership Degree',
+                    data: [1, 1, 1],
+                    backgroundColor: [colors.blue, colors.orange, colors.red],
+                    borderColor: [colors.blue, colors.orange, colors.red],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 10,
+                        cornerRadius: 4,
+                        callbacks: {
+                            label: function(context) {
+                                return 'μ = ' + context.parsed.y + ' (Singleton)';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: '#f0f0f0' },
+                        ticks: { 
+                            color: '#666',
+                            font: { size: 10 }
+                        }
+                    },
+                    y: {
+                        min: 0,
+                        max: 1,
+                        grid: { color: '#f0f0f0' },
+                        ticks: { color: '#666' },
+                        title: {
+                            display: true,
+                            text: 'Membership Degree (μ)',
+                            color: '#666'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Create Sex Chart (Binary Bar Chart)
+        new Chart(document.getElementById('sexChart'), {
+            type: 'bar',
+            data: {
+                labels: ['0 - Male', '1 - Female'],
+                datasets: [{
+                    label: 'Membership Degree',
+                    data: [1, 1],
+                    backgroundColor: [colors.blue, colors.pink],
+                    borderColor: [colors.blue, colors.pink],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 10,
+                        cornerRadius: 4,
+                        callbacks: {
+                            label: function(context) {
+                                return 'μ = ' + context.parsed.y + ' (Singleton)';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: '#f0f0f0' },
+                        ticks: { color: '#666' }
+                    },
+                    y: {
+                        min: 0,
+                        max: 1,
+                        grid: { color: '#f0f0f0' },
+                        ticks: { color: '#666' },
+                        title: {
+                            display: true,
+                            text: 'Membership Degree (μ)',
+                            color: '#666'
+                        }
+                    }
+                }
             }
         });
 
