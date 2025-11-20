@@ -84,6 +84,70 @@
         .nav-button.secondary:hover {
             background: #fafafa;
         }
+        
+        .formula-section {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 16px;
+            margin-top: 16px;
+            font-size: 0.875rem;
+        }
+        
+        .formula-toggle {
+            cursor: pointer;
+            font-weight: 600;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            user-select: none;
+        }
+        
+        .formula-toggle:hover {
+            color: #333;
+        }
+        
+        .formula-toggle::before {
+            content: '▶';
+            font-size: 0.75rem;
+            transition: transform 0.2s;
+        }
+        
+        .formula-toggle.active::before {
+            transform: rotate(90deg);
+        }
+        
+        .formula-content {
+            display: none;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .formula-content.active {
+            display: block;
+        }
+        
+        .formula-item {
+            margin-bottom: 12px;
+            padding: 8px;
+            background: white;
+            border-radius: 4px;
+        }
+        
+        .formula-label {
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+        
+        .formula-math {
+            font-family: 'Courier New', monospace;
+            color: #0066cc;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
     </style>
 </head>
 <body>
@@ -105,6 +169,37 @@
             <div class="canvas-wrapper">
                 <canvas id="ageChart"></canvas>
             </div>
+            <div class="formula-section">
+                <div class="formula-toggle" onclick="toggleFormula(this)">Mathematical Definitions</div>
+                <div class="formula-content">
+                    <div class="formula-item">
+                        <div class="formula-label">Young (0 ≤ x ≤ 38):</div>
+                        <div class="formula-math">μ(x) = 1.0                if 0 ≤ x ≤ 29
+μ(x) = (-1/9)x + 38/9     if 29 < x ≤ 38
+μ(x) = 0.0                if x > 38</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">Mild (33 ≤ x ≤ 45):</div>
+                        <div class="formula-math">μ(x) = 0.0                if x < 33
+μ(x) = (1/5)x - 33/5      if 33 ≤ x ≤ 38
+μ(x) = (-1/7)x + 45/7     if 38 < x ≤ 45
+μ(x) = 0.0                if x > 45</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">Old (40 ≤ x ≤ 58):</div>
+                        <div class="formula-math">μ(x) = 0.0                if x < 40
+μ(x) = (1/8)x - 40/8      if 40 ≤ x ≤ 48
+μ(x) = (-1/10)x + 58/10   if 48 < x ≤ 58
+μ(x) = 0.0                if x > 58</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">Very Old (x > 52):</div>
+                        <div class="formula-math">μ(x) = 0.0                if x ≤ 52
+μ(x) = (1/8)x - 52/8      if 52 < x ≤ 60
+μ(x) = 1.0                if x > 60</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Blood Pressure -->
@@ -113,6 +208,37 @@
             <p class="graph-subtitle">Range: 0-350 mmHg | Categories: Low, Medium, High, Very High</p>
             <div class="canvas-wrapper">
                 <canvas id="bpChart"></canvas>
+            </div>
+            <div class="formula-section">
+                <div class="formula-toggle" onclick="toggleFormula(this)">Mathematical Definitions</div>
+                <div class="formula-content">
+                    <div class="formula-item">
+                        <div class="formula-label">Low (x ≤ 134):</div>
+                        <div class="formula-math">μ(x) = 1.0                  if x ≤ 111
+μ(x) = (-1/23)x + 134/23    if 111 < x ≤ 134
+μ(x) = 0.0                  if x > 134</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">Medium (127 ≤ x ≤ 153):</div>
+                        <div class="formula-math">μ(x) = 0.0                  if x < 127
+μ(x) = (1/12)x - 127/12     if 127 ≤ x ≤ 139
+μ(x) = (-1/14)x + 153/14    if 139 < x ≤ 153
+μ(x) = 0.0                  if x > 153</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">High (142 ≤ x ≤ 172):</div>
+                        <div class="formula-math">μ(x) = 0.0                  if x < 142
+μ(x) = (1/15)x - 142/15     if 142 ≤ x ≤ 157
+μ(x) = (-1/15)x + 172/15    if 157 < x ≤ 172
+μ(x) = 0.0                  if x > 172</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">Very High (x > 154):</div>
+                        <div class="formula-math">μ(x) = 0.0                  if x ≤ 154
+μ(x) = (1/17)x - 154/17     if 154 < x ≤ 171
+μ(x) = 1.0                  if x > 171</div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -123,6 +249,37 @@
             <div class="canvas-wrapper">
                 <canvas id="cholesterolChart"></canvas>
             </div>
+            <div class="formula-section">
+                <div class="formula-toggle" onclick="toggleFormula(this)">Mathematical Definitions</div>
+                <div class="formula-content">
+                    <div class="formula-item">
+                        <div class="formula-label">Low (x ≤ 197):</div>
+                        <div class="formula-math">μ(x) = 1.0                  if x ≤ 151
+μ(x) = (-1/46)x + 197/46    if 151 < x ≤ 197
+μ(x) = 0.0                  if x > 197</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">Medium (188 ≤ x ≤ 250):</div>
+                        <div class="formula-math">μ(x) = 0.0                  if x < 188
+μ(x) = (1/27)x - 188/27     if 188 ≤ x ≤ 215
+μ(x) = (-1/35)x + 250/35    if 215 < x ≤ 250
+μ(x) = 0.0                  if x > 250</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">High (217 ≤ x ≤ 307):</div>
+                        <div class="formula-math">μ(x) = 0.0                  if x < 217
+μ(x) = (1/46)x - 217/46     if 217 ≤ x ≤ 263
+μ(x) = (-1/44)x + 307/44    if 263 < x ≤ 307
+μ(x) = 0.0                  if x > 307</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">Very High (x > 281):</div>
+                        <div class="formula-math">μ(x) = 0.0                  if x ≤ 281
+μ(x) = (1/66)x - 281/66     if 281 < x ≤ 347
+μ(x) = 1.0                  if x > 347</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Blood Sugar -->
@@ -131,6 +288,23 @@
             <p class="graph-subtitle">Range: 0-200 mg/dL | Categories: False (Normal), True (High)</p>
             <div class="canvas-wrapper">
                 <canvas id="bloodSugarChart"></canvas>
+            </div>
+            <div class="formula-section">
+                <div class="formula-toggle" onclick="toggleFormula(this)">Mathematical Definitions</div>
+                <div class="formula-content">
+                    <div class="formula-item">
+                        <div class="formula-label">False/Normal (x < 120):</div>
+                        <div class="formula-math">μ(x) = 1.0                if x < 105
+μ(x) = -0.067x + 8.0      if 105 ≤ x < 120
+μ(x) = 0.0                if x ≥ 120</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">True/High (x ≥ 120):</div>
+                        <div class="formula-math">μ(x) = 0.0                if x < 105
+μ(x) = 0.067x - 7.0       if 105 ≤ x < 120
+μ(x) = 1.0                if x ≥ 120</div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -141,6 +315,30 @@
             <div class="canvas-wrapper">
                 <canvas id="heartRateChart"></canvas>
             </div>
+            <div class="formula-section">
+                <div class="formula-toggle" onclick="toggleFormula(this)">Mathematical Definitions</div>
+                <div class="formula-content">
+                    <div class="formula-item">
+                        <div class="formula-label">Low (x ≤ 141):</div>
+                        <div class="formula-math">μ(x) = 1.0                  if x ≤ 100
+μ(x) = (-1/41)x + 141/41    if 100 < x ≤ 141
+μ(x) = 0.0                  if x > 141</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">Medium (111 ≤ x ≤ 194):</div>
+                        <div class="formula-math">μ(x) = 0.0                  if x < 111
+μ(x) = (1/41)x - 111/41     if 111 ≤ x ≤ 152
+μ(x) = (-1/42)x + 194/42    if 152 < x ≤ 194
+μ(x) = 0.0                  if x > 194</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">High (x > 152):</div>
+                        <div class="formula-math">μ(x) = 0.0                  if x ≤ 152
+μ(x) = (1/58)x - 152/58     if 152 < x ≤ 210
+μ(x) = 1.0                  if x > 210</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- ECG -->
@@ -149,6 +347,30 @@
             <p class="graph-subtitle">Range: -0.5 to 2.5 | Categories: Normal, Abnormal, Hypertrophy</p>
             <div class="canvas-wrapper">
                 <canvas id="ecgChart"></canvas>
+            </div>
+            <div class="formula-section">
+                <div class="formula-toggle" onclick="toggleFormula(this)">Mathematical Definitions</div>
+                <div class="formula-content">
+                    <div class="formula-item">
+                        <div class="formula-label">Normal (x ≤ 0.4):</div>
+                        <div class="formula-math">μ(x) = 1.0                  if x ≤ 0
+μ(x) = -2.5x + 1.0          if 0 < x ≤ 0.4
+μ(x) = 0.0                  if x > 0.4</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">Abnormal (0.2 ≤ x ≤ 1.8):</div>
+                        <div class="formula-math">μ(x) = 0.0                  if x < 0.2
+μ(x) = (1/0.8)x - 0.2/0.8   if 0.2 ≤ x ≤ 1.0
+μ(x) = (-1/0.8)x + 1.8/0.8  if 1.0 < x ≤ 1.8
+μ(x) = 0.0                  if x > 1.8</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">Hypertrophy (x > 1.4):</div>
+                        <div class="formula-math">μ(x) = 0.0                  if x ≤ 1.4
+μ(x) = (1/0.6)x - 1.4/0.6   if 1.4 < x ≤ 2.0
+μ(x) = 1.0                  if x > 2.0</div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -159,6 +381,30 @@
             <div class="canvas-wrapper">
                 <canvas id="oldPeakChart"></canvas>
             </div>
+            <div class="formula-section">
+                <div class="formula-toggle" onclick="toggleFormula(this)">Mathematical Definitions</div>
+                <div class="formula-content">
+                    <div class="formula-item">
+                        <div class="formula-label">Low (x ≤ 2.0):</div>
+                        <div class="formula-math">μ(x) = 1.0                  if x ≤ 1.0
+μ(x) = -x + 2.0             if 1.0 < x ≤ 2.0
+μ(x) = 0.0                  if x > 2.0</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">Risk (1.5 ≤ x ≤ 3.8):</div>
+                        <div class="formula-math">μ(x) = 0.0                  if x < 1.5
+μ(x) = (1/1.3)x - 1.5/1.3   if 1.5 ≤ x ≤ 2.8
+μ(x) = (-1/1.0)x + 3.8/1.0  if 2.8 < x ≤ 3.8
+μ(x) = 0.0                  if x > 3.8</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">Terrible (x > 2.5):</div>
+                        <div class="formula-math">μ(x) = 0.0                  if x ≤ 2.5
+μ(x) = (1/1.5)x - 2.5/1.5   if 2.5 < x ≤ 4.0
+μ(x) = 1.0                  if x > 4.0</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Chest Pain -->
@@ -167,6 +413,25 @@
             <p class="graph-subtitle">Discrete Values: 1-4 | Categories: Typical Angina, Atypical Angina, Non-Anginal Pain, Asymptomatic</p>
             <div class="canvas-wrapper">
                 <canvas id="chestPainChart"></canvas>
+            </div>
+            <div class="formula-section">
+                <div class="formula-toggle" onclick="toggleFormula(this)">Mathematical Definitions</div>
+                <div class="formula-content">
+                    <div class="formula-item">
+                        <div class="formula-label">Singleton Membership Functions:</div>
+                        <div class="formula-math">μ_typical_anginal(x) = 1.0 if x = 1, else 0.0
+μ_atypical_anginal(x) = 1.0 if x = 2, else 0.0
+μ_non_anginal_pain(x) = 1.0 if x = 3, else 0.0
+μ_asymptomatic(x) = 1.0 if x = 4, else 0.0</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">Clinical Interpretation:</div>
+                        <div class="formula-math">Type 1: Typical Angina - Classic chest pain
+Type 2: Atypical Angina - Unusual chest pain
+Type 3: Non-Anginal Pain - Not heart-related
+Type 4: Asymptomatic - No chest pain (highest risk)</div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -177,6 +442,21 @@
             <div class="canvas-wrapper">
                 <canvas id="exerciseChart"></canvas>
             </div>
+            <div class="formula-section">
+                <div class="formula-toggle" onclick="toggleFormula(this)">Mathematical Definitions</div>
+                <div class="formula-content">
+                    <div class="formula-item">
+                        <div class="formula-label">Singleton Membership Functions:</div>
+                        <div class="formula-math">μ_false(x) = 1.0 if x = 0, else 0.0
+μ_true(x) = 1.0 if x = 1, else 0.0</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">Clinical Interpretation:</div>
+                        <div class="formula-math">0 (False): No exercise-induced angina
+1 (True): Exercise-induced angina present (high risk)</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Thallium Scan -->
@@ -185,6 +465,23 @@
             <p class="graph-subtitle">Discrete Values: {3, 6, 7} | Categories: Normal, Medium (Fixed Defect), High (Reversible Defect)</p>
             <div class="canvas-wrapper">
                 <canvas id="thalliumChart"></canvas>
+            </div>
+            <div class="formula-section">
+                <div class="formula-toggle" onclick="toggleFormula(this)">Mathematical Definitions</div>
+                <div class="formula-content">
+                    <div class="formula-item">
+                        <div class="formula-label">Singleton Membership Functions:</div>
+                        <div class="formula-math">μ_normal(x) = 1.0 if x = 3, else 0.0
+μ_medium(x) = 1.0 if x = 6, else 0.0
+μ_high(x) = 1.0 if x = 7, else 0.0</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">Clinical Interpretation:</div>
+                        <div class="formula-math">3 (Normal): No perfusion defects
+6 (Medium): Fixed defect - previous MI/scar tissue
+7 (High): Reversible defect - active ischemia</div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -195,6 +492,21 @@
             <div class="canvas-wrapper">
                 <canvas id="sexChart"></canvas>
             </div>
+            <div class="formula-section">
+                <div class="formula-toggle" onclick="toggleFormula(this)">Mathematical Definitions</div>
+                <div class="formula-content">
+                    <div class="formula-item">
+                        <div class="formula-label">Singleton Membership Functions:</div>
+                        <div class="formula-math">μ_male(x) = 1.0 if x = 0, else 0.0
+μ_female(x) = 1.0 if x = 1, else 0.0</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">Clinical Interpretation:</div>
+                        <div class="formula-math">0 (Male): Higher cardiovascular risk
+1 (Female): Lower risk (pre-menopause)</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Output Functions -->
@@ -203,6 +515,51 @@
             <p class="graph-subtitle">Range: 0-5 | Categories: Healthy, Sick 1, Sick 2, Sick 3, Sick 4</p>
             <div class="canvas-wrapper">
                 <canvas id="outputChart"></canvas>
+            </div>
+            <div class="formula-section">
+                <div class="formula-toggle" onclick="toggleFormula(this)">Mathematical Definitions</div>
+                <div class="formula-content">
+                    <div class="formula-item">
+                        <div class="formula-label">Healthy (0 ≤ x ≤ 1.0):</div>
+                        <div class="formula-math">μ(x) = 1.0                  if 0 ≤ x ≤ 0.25
+μ(x) = (-1/0.75)x + 1/0.75  if 0.25 < x ≤ 1.0
+μ(x) = 0.0                  if x > 1.0</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">Sick 1 - Mild Risk (0 ≤ x ≤ 2.0):</div>
+                        <div class="formula-math">μ(x) = x                    if 0 ≤ x ≤ 1.0
+μ(x) = -x + 2.0             if 1.0 < x ≤ 2.0
+μ(x) = 0.0                  if x > 2.0</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">Sick 2 - Moderate Risk (1.0 ≤ x ≤ 3.0):</div>
+                        <div class="formula-math">μ(x) = 0.0                  if x < 1.0
+μ(x) = x - 1.0              if 1.0 ≤ x ≤ 2.0
+μ(x) = -x + 3.0             if 2.0 < x ≤ 3.0
+μ(x) = 0.0                  if x > 3.0</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">Sick 3 - Significant Risk (2.0 ≤ x ≤ 4.0):</div>
+                        <div class="formula-math">μ(x) = 0.0                  if x < 2.0
+μ(x) = x - 2.0              if 2.0 ≤ x ≤ 3.0
+μ(x) = -x + 4.0             if 3.0 < x ≤ 4.0
+μ(x) = 0.0                  if x > 4.0</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">Sick 4 - Severe Risk (x > 3.0):</div>
+                        <div class="formula-math">μ(x) = 0.0                  if x ≤ 3.0
+μ(x) = (1/0.75)x - 3/0.75   if 3.0 < x ≤ 3.75
+μ(x) = 1.0                  if x > 3.75</div>
+                    </div>
+                    <div class="formula-item">
+                        <div class="formula-label">Defuzzification Range Mapping:</div>
+                        <div class="formula-math">CoG < 1.78        → Healthy
+1.0 ≤ CoG ≤ 2.51  → Sick 1 (Mild)
+1.78 ≤ CoG < 3.25 → Sick 2 (Moderate)
+1.5 ≤ CoG ≤ 4.5   → Sick 3 (Significant)
+CoG ≥ 3.25        → Sick 4 (Severe)</div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -932,6 +1289,13 @@
                 ]
             }
         });
+
+        // Toggle formula visibility
+        function toggleFormula(element) {
+            element.classList.toggle('active');
+            const content = element.nextElementSibling;
+            content.classList.toggle('active');
+        }
     </script>
 </body>
 </html>
