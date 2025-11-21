@@ -631,11 +631,3 @@ Rule 54: IF age IS very_old THEN health IS sick_4
 
 ---
 
-**Document Version**: 1.0  
-**Date**: November 2025  
-**Authors**: MediFuzzy Research Team  
-**Contact**: [Project Repository](https://github.com/yourusername/medifuzzy)
-
----
-
-*This research paper is provided for educational and research purposes. The system described is a proof-of-concept and should not be used for actual medical diagnosis without proper clinical validation and regulatory approval.*

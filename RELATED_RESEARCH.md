@@ -411,6 +411,3 @@ In Proceedings of the International MultiConference of Engineers and Computer Sc
 5. **Future Work**: Explore hybrid approaches (Sections 2-3) for enhancement ideas
 
 ---
-
-**Last Updated:** November 2024  
-**Note:** Some links may require institutional access or subscription. Use your university library or contact authors for preprints.
